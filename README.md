@@ -54,11 +54,17 @@ To send for real, put your key in `.env` and switch the mailer:
 ```dotenv
 MAIL_MAILER=brevo
 BREVO_API_KEY=xkeysib-…
-MAIL_FROM_ADDRESS="no-reply@bpe.com.my"
+MAIL_FROM_ADDRESS="costflow@coursesme.com"
 ```
 
+The sender is **not** `@bpe.com.my`. You can only send as a domain you can add
+DKIM records to, and BPE's DNS is not ours. An unauthenticated sender does not
+bounce — Brevo silently rewrites the From to `…@brevosend.com`, so the mail
+arrives from a stranger and your domain builds no reputation. Recipients remain
+`@bpe.com.my`; only the sender differs.
+
 Out of the box `MAIL_MAILER=log`, so a fresh clone works with no key: every
-email is written to `storage/logs/laravel.log`, links included.
+email is written to `storage/logs/mail.log`, links included.
 
 Workflow notifications are queued. In production, run a worker:
 
