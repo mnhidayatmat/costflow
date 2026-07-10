@@ -52,6 +52,21 @@ return [
 
     'channels' => [
 
+        /*
+         * Where MAIL_MAILER=log writes rendered emails.
+         *
+         * The log mailer emits at DEBUG level, so with a production LOG_LEVEL
+         * of `warning` the emails are discarded silently — a registration would
+         * never produce a verification link and nobody would know why. Give it
+         * its own file, always at debug.
+         */
+        'mail' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/mail.log'),
+            'level' => 'debug',
+            'replace_placeholders' => true,
+        ],
+
         'stack' => [
             'driver' => 'stack',
             'channels' => explode(',', (string) env('LOG_STACK', 'single')),
